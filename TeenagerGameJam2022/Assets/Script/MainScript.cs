@@ -9,11 +9,11 @@ public class MainScript : MonoBehaviour
 {
     public enum Characteristic
     {
-        a,
-        b,
-        c,
-        d,
-        e,
+        Observation, // 관찰력
+        Strong, //괴력
+        Sharpness, //날렵함
+        Intuition, //직감
+        Frostbite, //동상
         f,
         g,
         h,
@@ -27,6 +27,16 @@ public class MainScript : MonoBehaviour
         p
     }
     
+    public enum Item
+    {
+        Match, //성냥
+        Meat, //고기
+        Jumper, // 방한복
+        Medicine, //약
+        e,
+        f,
+        g,
+    }
     [SerializeField] private int hp;
     [SerializeField] private int mental;
     [SerializeField] private int hunger;// 굳이 필요 한가? 한번 상의

@@ -154,7 +154,7 @@ Transform:
   - {fileID: 1605971544}
   - {fileID: 225212730}
   m_Father: {fileID: 1968045877}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &28453101
 GameObject:
@@ -187,7 +187,7 @@ Transform:
   - {fileID: 1790939751}
   - {fileID: 1090720299}
   m_Father: {fileID: 1968045877}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &78905708
 GameObject:
@@ -222,12 +222,12 @@ RectTransform:
   m_Children:
   - {fileID: 1418212295}
   m_Father: {fileID: 1968045877}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 91.46716, y: -34.863525}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -290, y: -930}
+  m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &78905710
 MonoBehaviour:
@@ -568,7 +568,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 33668e725ca4a844a912606bac39d011, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
@@ -1221,18 +1221,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
+    m_MinSize: 5
+    m_MaxSize: 64
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB2E4\uC74C\uC73C\uB85C"
 --- !u!222 &1418212297
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1548,9 +1548,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 584462272}
+  - {fileID: 78905709}
   - {fileID: 28453102}
   - {fileID: 16734841}
-  - {fileID: 78905709}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1589,14 +1589,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 0
-  fear: 0
+  mental: 0
   hunger: 0
   storyTeller: {fileID: 584462270}
   title: {fileID: 1790939752}
+  mainStoryCount: 0
   startButton: {fileID: 1090720298}
   prologueButton1: {fileID: 1605971543}
   prologueButton2: {fileID: 225212729}
   eventButton: {fileID: 0}
+  retryButton: {fileID: 0}
 --- !u!4 &2106159530
 Transform:
   m_ObjectHideFlags: 0
