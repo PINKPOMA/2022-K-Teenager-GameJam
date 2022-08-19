@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class MainScript : MonoBehaviour
 {
@@ -24,25 +26,30 @@ public class MainScript : MonoBehaviour
         o,
         p
     }
+    
     [SerializeField] private int hp;
     [SerializeField] private int mental;
-    [SerializeField] private int hunger;
+    [SerializeField] private int hunger;// 굳이 필요 한가? 한번 상의
 
     private bool[] characteristicArray;
+    private bool[] itemArray;
     [SerializeField] private Text storyTeller;
     [SerializeField] private Text title;
     private string storyScript;
+    [SerializeField]private int mainStoryCount;
 
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject prologueButton1;
     [SerializeField] private GameObject prologueButton2;
     [SerializeField] private GameObject eventButton;
     [SerializeField] private GameObject retryButton;
-    
-    
-    
-    
-    
+
+
+    private void Start()
+    {
+        mainStoryCount = 0;
+    }
+
     public void Prologue()
     {
         title.gameObject.SetActive(false);
@@ -97,7 +104,7 @@ public class MainScript : MonoBehaviour
     public void GetCharacteristic2()
     {
         storyScript =
-            " 당신은 어려서부터 관찰력이 어쩌구 \n" +
+            " 당신은 어려서부터 두려움이 어쩌구 \n" +
             " 어쩌구 저쩌구를 얻고 당신을 길을 떠났습니다..";
         StartCoroutine("TypingStory", storyScript);
         eventButton.SetActive(true);
@@ -105,7 +112,7 @@ public class MainScript : MonoBehaviour
     public void GetCharacteristic3()
     {
         storyScript =
-            " 당신은 어려서부터 관찰력이 어쩌구 \n" +
+            " 당신은 어려서부터 직감이 어쩌구 \n" +
             " 어쩌구 저쩌구를 얻고 당신을 길을 떠났습니다..";
         StartCoroutine("TypingStory", storyScript);
         eventButton.SetActive(true);
@@ -113,15 +120,227 @@ public class MainScript : MonoBehaviour
 
     public void EventButton()
     {
-        if (hp == 0)
+        mainStoryCount += 1;
+        if (hp <= 0)
             HpEnding();
-        else if (mental == 0)
+        else if (mental <= 0)
             MentalEnding();
-            
+        else if (mainStoryCount == 5 || mainStoryCount == 10 || mainStoryCount == 15 || mainStoryCount == 20 ||
+                 mainStoryCount == 25)
+        {
+            switch (mainStoryCount)
+            {
+                case 5:
+                    MainStory1();
+                    break;
+                case 10:
+                    MainStory2();
+                    break;
+                case 15:
+                    MainStory3();
+                    break;
+                case 20:
+                    MainStory4();
+                    break;
+                case 25:
+                    MainStory5();
+                    break;
+            }
+        }
+        else
+        {
+            int randomNumber = Random.Range(0, 20);
+
+            switch (randomNumber)
+            {
+                case 0:
+                    SubStory1();
+                    break;
+                case 1:
+                    SubStory2();
+                    break;
+                case 2:
+                    SubStory3();
+                    break;
+                case 3:
+                    SubStory4();
+                    break;
+                case 4:
+                    SubStory5();
+                    break;
+                case 5:
+                    SubStory6();
+                    break;
+                case 6:
+                    SubStory7();
+                    break;
+                case 7:
+                    SubStory8();
+                    break;
+                case 8:
+                    SubStory9();
+                    break;
+                case 9:
+                    SubStory10();
+                    break;
+                case 10:
+                    SubStory11();
+                    break;
+                case 11:
+                    SubStory12();
+                    break;
+                case 12:
+                    SubStory13();
+                    break;
+                case 13:
+                    SubStory14();
+                    break;
+                case 14:
+                    SubStory15();
+                    break;
+                case 15:
+                    SubStory16();
+                    break;
+                case 16:
+                    SubStory17();
+                    break;
+                case 17:
+                    SubStory18();
+                    break;
+                case 18:
+                    SubStory19();
+                    break;
+                case 19:
+                    SubStory20();
+                    break;
+            }
+        }
+    }
+
+
+    public void SubStory1()
+    {
+        
+    }
+    public void SubStory2()
+    {
+        
+    }
+    public void SubStory3()
+    {
+        
+    }
+    public void SubStory4()
+    {
+        
+    }
+    public void SubStory5()
+    {
+        
+    }
+    public void SubStory6()
+    {
+        
+    }
+    public void SubStory7()
+    {
+        
+    }
+    public void SubStory8()
+    {
+        
+    }
+    public void SubStory9()
+    {
+        
+    }
+    public void SubStory10()
+    {
+        
+    }
+    public void SubStory11()
+    {
+        
+    }
+    public void SubStory12()
+    {
+        
+    }
+    public void SubStory13()
+    {
+        
+    }
+    public void SubStory14()
+    {
+        
+    }
+    public void SubStory15()
+    {
+        
+    }
+    public void SubStory16()
+    {
+        
+    }
+    public void SubStory17()
+    {
+        
+    }
+    public void SubStory18()
+    {
+        
+    }
+    public void SubStory19()
+    {
+        
+    }
+    public void SubStory20()
+    {
+        
     }
 
 
 
+    public void MainStory1()
+    {
+        storyScript =
+            "메인 스토리 1 내용";
+        StartCoroutine("TypingStory", storyScript);
+        eventButton.SetActive(true);
+    }
+    
+    public void MainStory2()
+    {
+        storyScript =
+            "메인 스토리 2 내용";
+        StartCoroutine("TypingStory", storyScript);
+        eventButton.SetActive(true);
+    }
+    
+    public void MainStory3()
+    {
+        storyScript =
+            "메인 스토리 3 내용";
+        StartCoroutine("TypingStory", storyScript);
+        eventButton.SetActive(true);
+    }
+    
+    public void MainStory4()
+    {
+        storyScript =
+            "메인 스토리 4 내용";
+        StartCoroutine("TypingStory", storyScript);
+        eventButton.SetActive(true);
+    }
+    
+    public void MainStory5()
+    {
+        storyScript =
+            "아마 엔딩?";
+        StartCoroutine("TypingStory", storyScript);
+        retryButton.SetActive(true);
+    }
+    
     public void MentalEnding()
     {
         storyScript =
@@ -135,6 +354,14 @@ public class MainScript : MonoBehaviour
             "당신은 차디찬 남극의 날씨를 견디기엔 역부족이었고 결국 다음을 기약하며 남극에서 떠납니다..";
         StartCoroutine("TypingStory", storyScript);
         retryButton.SetActive(true);
+    }
+
+    public void HappyEnding()
+    {
+        storyScript =
+            "당신은 남극과의 사투 끝에 무사히 남극점을 찾았습니다 이제 남은일은 깃발을 꽂고 집으로 돌아가는것밖에 남지 않았군요..";
+        StartCoroutine("TypingStory", storyScript);
+        retryButton.SetActive(true); 
     }
 
     public void Retry()
