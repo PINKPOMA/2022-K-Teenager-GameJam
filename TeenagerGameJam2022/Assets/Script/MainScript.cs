@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainScript : MonoBehaviour
@@ -24,7 +25,7 @@ public class MainScript : MonoBehaviour
         p
     }
     [SerializeField] private int hp;
-    [SerializeField] private int fear;
+    [SerializeField] private int mental;
     [SerializeField] private int hunger;
 
     private bool[] characteristicArray;
@@ -35,6 +36,8 @@ public class MainScript : MonoBehaviour
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject prologueButton1;
     [SerializeField] private GameObject prologueButton2;
+    [SerializeField] private GameObject eventButton;
+    [SerializeField] private GameObject retryButton;
     
     
     
@@ -74,27 +77,71 @@ public class MainScript : MonoBehaviour
             case 0:
                 GetCharacteristic1();
                 break;
+            case 1:
+                GetCharacteristic2();
+                break;
+            case 3:
+                GetCharacteristic3();
+                break;
         }
     }
 
     public void GetCharacteristic1()
     {
-        
         storyScript =
             " 당신은 어려서부터 관찰력이 어쩌구 \n" +
             " 어쩌구 저쩌구를 얻고 당신을 길을 떠났습니다..";
         StartCoroutine("TypingStory", storyScript);
-        
+        eventButton.SetActive(true);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    public void GetCharacteristic2()
+    {
+        storyScript =
+            " 당신은 어려서부터 관찰력이 어쩌구 \n" +
+            " 어쩌구 저쩌구를 얻고 당신을 길을 떠났습니다..";
+        StartCoroutine("TypingStory", storyScript);
+        eventButton.SetActive(true);
+    }
+    public void GetCharacteristic3()
+    {
+        storyScript =
+            " 당신은 어려서부터 관찰력이 어쩌구 \n" +
+            " 어쩌구 저쩌구를 얻고 당신을 길을 떠났습니다..";
+        StartCoroutine("TypingStory", storyScript);
+        eventButton.SetActive(true);
+    }
+
+    public void EventButton()
+    {
+        if (hp == 0)
+            HpEnding();
+        else if (mental == 0)
+            MentalEnding();
+            
+    }
+
+
+
+    public void MentalEnding()
+    {
+        storyScript =
+            "당신은 남극의 찬바람마저 극도로 두려워젔고 결국 다음을 기약하며 남극에서 떠납니다..";
+        StartCoroutine("TypingStory", storyScript);
+        retryButton.SetActive(true);
+    }
+    public void HpEnding()
+    {
+        storyScript =
+            "당신은 차디찬 남극의 날씨를 견디기엔 역부족이었고 결국 다음을 기약하며 남극에서 떠납니다..";
+        StartCoroutine("TypingStory", storyScript);
+        retryButton.SetActive(true);
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene("MainScene");
+    }
+
     IEnumerator TypingStory( string story)
     {
         for (int i = 0; i < story.Length; i++)
