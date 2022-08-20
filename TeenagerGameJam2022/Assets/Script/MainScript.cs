@@ -34,6 +34,7 @@ public class MainScript : MonoBehaviour
     
     [SerializeField] private int hp;
     [SerializeField] private int mental;
+    [SerializeField] private int lastNum;
 
     private bool[] characteristicArray = {false, false, false, false, false, false, false, false};
     private bool[] itemArray = {false, false, false, false, false, false, false};
@@ -57,9 +58,9 @@ public class MainScript : MonoBehaviour
     [SerializeField] private GameObject prologueButton2;
     [SerializeField] private GameObject eventButton;
     [SerializeField] private GameObject retryButton;
-    [SerializeField] private GameObject gearButton;
     
     [SerializeField] private GameObject endingimage;
+    [SerializeField] private GameObject badEndingimage;
     
     [SerializeField] private GameObject subEvent1_1Button;
     [SerializeField] private GameObject subEvent1_2Button;
@@ -84,6 +85,9 @@ public class MainScript : MonoBehaviour
     [SerializeField] private GameObject mainEvent2_2Button;
     [SerializeField] private GameObject mainEvent3_1Button;
     [SerializeField] private GameObject mainEvent3_2Button;
+    
+    [SerializeField] private GameObject credit;
+    [SerializeField] private GameObject creditButton;
     private void Start()
     {
         hp = 3;
@@ -99,10 +103,10 @@ public class MainScript : MonoBehaviour
             showHp[i].SetActive(true);
             showMental[i].SetActive(true);
         }
+        creditButton.SetActive(false);
         title.gameObject.SetActive(false);
         startButton.SetActive(false);
         storyTeller.gameObject.SetActive(true);
-        gearButton.SetActive(true);
         storyScript =
             "1872년 7월 16일, 당신은 어느 마을의 오두막에서 로얄 아문센 이라는 이름을 가지고 태어났습니다. " +
             "15살 시절 우연히 탐험 보고서를 얻은 후 읽으며 탐험가의 매력에 빠져 꿈을 키우기 시작했던 당신은 어느새 훌쩍 자라 첫 탐험으로 남극으로 떠났었죠." +
@@ -141,10 +145,7 @@ public class MainScript : MonoBehaviour
         }
     }
 
-    public void gearOpen()
-    {
-        
-    }
+
     public void GetCharacteristic1()
     {
         storyScript =
@@ -189,6 +190,7 @@ public class MainScript : MonoBehaviour
 
     public void EventButton()   
     {
+        eventButton.SetActive(false);
         mainStoryCount += 1;
         if (hp <= 0)
             HpEnding();
@@ -213,6 +215,12 @@ public class MainScript : MonoBehaviour
         {
             int randomNumber = Random.Range(0, 10);
 
+            while (randomNumber != lastNum)
+            {
+                randomNumber = Random.Range(0, 10);
+            }
+
+            lastNum = randomNumber;
             switch (randomNumber)
             {
                 case 0:
@@ -253,7 +261,6 @@ public class MainScript : MonoBehaviour
                     break;
             }
         }
-        eventButton.SetActive(false);
     }
 
 
@@ -362,8 +369,6 @@ public class MainScript : MonoBehaviour
             mental = 0;
         MentalChanger();
         HpChanger();
-        statusLogText.text = "<color=red>멘탈</color> <color=green>체력</color>";
-        StartCoroutine("StatusFade");
         subEvent3_1Button.SetActive(false);
         subEvent3_2Button.SetActive(false);
         eventButton.SetActive(true);
@@ -747,6 +752,7 @@ public class MainScript : MonoBehaviour
         StartCoroutine("TypingStory", storyScript);
         mainEvent1_1Button.SetActive(false);
         mainEvent1_2Button.SetActive(false);
+        eventButton.SetActive(true);
     }
 
     public void MainStory2()
@@ -758,6 +764,8 @@ public class MainScript : MonoBehaviour
         mainEvent2_1Button.SetActive(true);
         if (characteristicArray[(int)Characteristic.Navigational])
             mainEvent2_2Button.SetActive(true);
+        mainStoryCount = 0;
+        mainStoryProgress += 1;
     }
 
     public void MainEvent2_1Button()
@@ -797,6 +805,8 @@ public class MainScript : MonoBehaviour
     public void MainEvent3_1Button()
     {
         HappyEnding();
+        mainEvent3_1Button.SetActive(false);
+        mainEvent3_2Button.SetActive(false);
     }
     public void MainEvent3_2Button()
     {
@@ -804,20 +814,24 @@ public class MainScript : MonoBehaviour
             "당신은 애써 눈보라를 피해 기지에 귀환하였지만, 안타깝게도 4개월이 넘도록 눈보라는 그치지 않았습니다." +
             " 이러한 눈보라로 인해 식량 조달도 하지 못하고, 대원들도 많이 지쳤기에 노르웨이로 복귀하기로 결정하였습니다. 이번 여정의 끝은 여기까지네요.";
         StartCoroutine("TypingStory", storyScript);
+        mainEvent3_1Button.SetActive(false);
+        mainEvent3_2Button.SetActive(false);
         retryButton.SetActive(true);
     }
     public void MentalEnding()
     {
         storyScript =
-            "당신은 남극의 찬바람마저 극도로 두려워젔고 결국 다음을 기약하며 남극에서 떠납니다..";
+            "너무 많은 스트레스로 인해 여정을 떠날 수 없을 것 같네요. 이번 모험은 여기까지 하고 다음 번을 기약해야 할 것 같습니다.";
         StartCoroutine("TypingStory", storyScript);
+        badEndingimage.SetActive(true);
         retryButton.SetActive(true);
     }
     public void HpEnding()
     {
         storyScript =
-            "당신은 차디찬 남극의 날씨를 견디기엔 역부족이었고 결국 다음을 기약하며 남극에서 떠납니다..";
+            "더 이상 힘에 부쳐 여정을 떠날 수 없을 것 같네요. 이번 모험은 여기까지 하고 다음 번을 기약해야 할 것 같습니다.";
         StartCoroutine("TypingStory", storyScript);
+        badEndingimage.SetActive(true);
         retryButton.SetActive(true);
     }
 
@@ -890,6 +904,14 @@ public class MainScript : MonoBehaviour
         }
     }
 
+    public void OpenCredit()
+    {
+        credit.SetActive(true);
+    }
+    public void CloseCredit()
+    {
+        credit.SetActive(false);
+    }
     IEnumerator StatusFade()
     {
         statusLogText.DOFade(1.0f, 1f);
@@ -910,4 +932,5 @@ public class MainScript : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
     }
+ 
 }
