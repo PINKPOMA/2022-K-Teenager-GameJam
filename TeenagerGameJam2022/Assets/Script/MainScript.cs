@@ -97,18 +97,17 @@ public class MainScript : MonoBehaviour
 
     public void Prologue1()
     {
-        prologueButton1.SetActive(false);
         storyScript =
             "당신은 남극점을 정복하기 위한 모험을 떠나게 됩니다. " +
             "당신의 앞에는 위험이 도사릴지도 모르죠. 하지만, 그런 위험조차 당신의 압도적인 ‘이 능력’ 덕분에 헤쳐나갈 수 있겠죠!";
         StartCoroutine("TypingStory", storyScript);
         
         prologueButton2.SetActive(true);
+        prologueButton1.SetActive(false);
     }
 
     public void Prologue2()
     {
-        prologueButton2.SetActive(false);
         int characteristicRandomNum = Random.Range(0, 3);
         switch (characteristicRandomNum)
         {
@@ -122,6 +121,7 @@ public class MainScript : MonoBehaviour
                 GetCharacteristic3();
                 break;
         }
+        prologueButton2.SetActive(false);
     }
 
     public void GetCharacteristic1()
