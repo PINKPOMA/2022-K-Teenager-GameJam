@@ -31,17 +31,24 @@ public class MainScript : MonoBehaviour
         Gold, //금화
         Compass, // 나침반
     }
+    
     [SerializeField] private int hp;
     [SerializeField] private int mental;
 
     private bool[] characteristicArray = new []{false, false, false, false, false, false, false, false};
     private bool[] itemArray = new []{false, false, false, false, false, false, false};
+    
+    [SerializeField] private GameObject[] showHp;
+    [SerializeField] private GameObject[] showMental;
+    
     [SerializeField] private Text storyTeller;
     [SerializeField] private Text title;
-    [SerializeField] private Text statusLogText; // 상태 업데이트 시 확인용
+    [SerializeField] private Text statusLogText;
+    
     private string storyScript;
     private string profile;
     private string myInv;
+    
     [SerializeField]private int mainStoryCount;
     [SerializeField]private int mainStoryProgress;
 
@@ -83,6 +90,11 @@ public class MainScript : MonoBehaviour
    
     public void Prologue()
     {
+        for (int i = 0; i < 3; i++)
+        {
+            showHp[i].SetActive(true);
+            showMental[i].SetActive(true);
+        }
         title.gameObject.SetActive(false);
         startButton.SetActive(false);
         storyTeller.gameObject.SetActive(true);
@@ -125,6 +137,10 @@ public class MainScript : MonoBehaviour
         }
     }
 
+    public void gearOpen()
+    {
+        
+    }
     public void GetCharacteristic1()
     {
         storyScript =
