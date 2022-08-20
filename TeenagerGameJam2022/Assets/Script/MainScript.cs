@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,8 +40,10 @@ public class MainScript : MonoBehaviour
     [SerializeField] private Text storyTeller;
     [SerializeField] private Text title;
     [SerializeField] private Text statusText;
+    [SerializeField] private Text statusLogText; // 상태 업데이트 시 확인용
     private string storyScript;
     private string profile;
+    private string myInv;
     [SerializeField]private int mainStoryCount;
     [SerializeField]private int mainStoryProgress;
 
@@ -110,8 +113,9 @@ public class MainScript : MonoBehaviour
             "당신은 어려서부터 호기심이 많았습니다 그것도 날씨에 관해서요!\n" +
             "아마 남극에서 당신을 뛰어넘을 기상학자는 없을겁니다";
         StartCoroutine("TypingStory", storyScript);
-        Debug.Log((int)Characteristic.Meteorology);
         characteristicArray[(int)Characteristic.Meteorology] = true;
+        statusLogText.text = "기상학";
+        StartCoroutine("StatusFade");
         eventButton.SetActive(true);
     }
     public void GetCharacteristic2()
@@ -120,8 +124,9 @@ public class MainScript : MonoBehaviour
             "당신은 남극의 중심을 보기위해 정말 많은 노력을 해왔지만 그중에서도 항해실력은 으뜸이었습니다.\n" +
             "당신의 항해 실력이면 남극까진 무사히 도착할것 같군요.";
         StartCoroutine("TypingStory", storyScript);
-        Debug.Log((int)Characteristic.Navigational);
         characteristicArray[(int)Characteristic.Navigational] = true;
+        statusLogText.text = "항해력";
+        StartCoroutine("StatusFade");
         eventButton.SetActive(true);
     }
     public void GetCharacteristic3()
@@ -130,12 +135,13 @@ public class MainScript : MonoBehaviour
             "당신은 동네에서 놀때에도 모두를 한데 뭉치는데 능숙했죠.\n" +
             "여렸을때부터 갈고닦아온 통솔력의 힘을 보여줄때가 왔습니다!";
         StartCoroutine("TypingStory", storyScript);
-        Debug.Log((int)Characteristic.Commanding);
         characteristicArray[(int)Characteristic.Commanding] = true;
+        statusLogText.text = "통솔력";
+        StartCoroutine("StatusFade");
         eventButton.SetActive(true);
     }
 
-    public void EventButton()
+    public void EventButton()   
     {
         mainStoryCount += 1;
         if (hp <= 0)
@@ -351,10 +357,7 @@ public class MainScript : MonoBehaviour
     
     public void MainStory5()
     {
-        storyScript =
-            "아마 엔딩?";
-        StartCoroutine("TypingStory", storyScript);
-        retryButton.SetActive(true);
+        HappyEnding();
     }
     
     public void MentalEnding()
@@ -375,7 +378,7 @@ public class MainScript : MonoBehaviour
     public void HappyEnding()
     {
         storyScript =
-            "당신은 남극과의 사투 끝에 무사히 남극점을 찾았습니다 이제 남은일은 깃발을 꽂고 집으로 돌아가는것밖에 남지 않았군요..";
+            "당신은 기나긴 남극과의 사투 끝에 무사히 남극점을 찾았습니다! 이제 남은일은 깃발을 꽂고 집으로 돌아가는것밖에 남지 않았군요..";
         StartCoroutine("TypingStory", storyScript);
         retryButton.SetActive(true); 
     }
@@ -385,6 +388,12 @@ public class MainScript : MonoBehaviour
         SceneManager.LoadScene("MainScene");
     }
 
+    IEnumerator StatusFade()
+    {
+        statusLogText.DOFade(1.0f, 1f);
+        yield return new WaitForSeconds(1f);
+        statusLogText.DOFade(0f, 1f);
+    }
     IEnumerator TypingStory( string story)
     {
         for (int i = 0; i < story.Length; i++)
