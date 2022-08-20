@@ -23,7 +23,7 @@ public class MainScript : MonoBehaviour
     
     public enum Item
     {
-        Match, //성냥
+        Meal, //밥
         Gun, //총
         Dog, //개  
         Jumper, // 방한복
@@ -64,7 +64,9 @@ public class MainScript : MonoBehaviour
     [SerializeField] private GameObject subEvent6_2Button;
     [SerializeField] private GameObject subEvent7_1Button;
     [SerializeField] private GameObject subEvent7_2Button;
-
+    [SerializeField] private GameObject subEvent9_1Button;
+    [SerializeField] private GameObject subEvent9_2Button;
+    
     [SerializeField] private GameObject mainEvent1_1Button;
     [SerializeField] private GameObject mainEvent1_2Button;
     [SerializeField] private GameObject mainEvent2_1Button;
@@ -76,12 +78,10 @@ public class MainScript : MonoBehaviour
         hp = 3;
         mental = 3;
         mainStoryCount = 0;
-       // statusText.text = $"h: {hp} m: {mental}";
     }
 
     public void Prologue()
     {
-        //statusText.gameObject.SetActive(true);
         title.gameObject.SetActive(false);
         startButton.SetActive(false);
         storyTeller.gameObject.SetActive(true);
@@ -185,7 +185,7 @@ public class MainScript : MonoBehaviour
         }
         else
         {
-            int randomNumber = Random.Range(0, 20);
+            int randomNumber = Random.Range(0, 10);
 
             switch (randomNumber)
             {
@@ -251,6 +251,7 @@ public class MainScript : MonoBehaviour
                     break;
             }
         }
+        eventButton.SetActive(false);
     }
 
 
@@ -259,21 +260,28 @@ public class MainScript : MonoBehaviour
         storyScript = "지금까지 촬영했던 사진과 영상의 필름들을 모두 잃어버린 것 같습니다. 찾고 싶은 마음은 굴뚝같지만, 곧 눈보라가 강하게 칠 것 같은데 찾을 수 있을까요?";
         StartCoroutine("TypingStory", storyScript);
         subEvent1_1Button.SetActive(true);
-        if(characteristicArray[(int)Characteristic.Navigational])
+        if(characteristicArray[(int)Characteristic.Sharpness])
             subEvent1_2Button.SetActive(true);
     }
 
     public void SubEvent1_1Button()
     {
-        storyScript = "당신은 애써 마음을 다독이며 다시 앞을 향해 걸어갑니다..";
+        storyScript = "눈 속에 파묻힌 필름을 다행히 찾아냈지만, 뒤늦게 오는 눈보라가 당신을 품습니다. " +
+                      "운 좋게 빠져나오긴 했지만, 기진맥진한 상태가 되어버렸네요.";
         StartCoroutine("TypingStory", storyScript);
+        mental -= 1;
+        statusLogText.color = Color.red;
+        statusLogText.text = "멘탈";
+        StatusFade();
         subEvent1_1Button.SetActive(false);
         subEvent1_2Button.SetActive(false);
         eventButton.SetActive(true);
     }
     public void SubEvent1_2Button()
     {
-        storyScript = "당신은 뛰어난 분석력으로 그것이 거짓말이라는것을 간파했습니다!";
+        storyScript = "당신의 뛰어난 움직임으로 방금까지 걸어왔던 길을 신속하게 탐색했습니다." +
+                      " 혹시 눈에 파묻히지는 않았을까, 가방에 있는데 못찾은 건 아닌가 하며 찾던 도중." +
+                      " 발에 걸리는 무언가를 보니 필름이었습니다. 휴, 빨리 일행에게 복귀하여 한숨 돌려야겠네요.";
         StartCoroutine("TypingStory", storyScript);
         subEvent1_1Button.SetActive(false);
         subEvent1_2Button.SetActive(false);
@@ -293,7 +301,8 @@ public class MainScript : MonoBehaviour
     }
     public void SubEvent2_1Button()
     {
-        storyScript = "부 지휘관은 아직도 납득을 할 수 없는 상태라는듯 행동하지만 당신은 끝까지 뜻을 굽히지 않았습니다.";
+        storyScript = "\"아니, 무슨 소립니까?\" 당신의 부 지휘관이 소리칩니다. 이젠 아니겠지만요." +
+                      " 당신은 그런 그를 묵묵히 무시하고 잘 따르는 팀원 몇 명을 뽑아 계속해서 모험을 떠날 채비를 합니다.";
         StartCoroutine("TypingStory", storyScript);
         subEvent2_1Button.SetActive(false);
         subEvent2_2Button.SetActive(false);
@@ -301,8 +310,12 @@ public class MainScript : MonoBehaviour
     }
     public void SubEvent2_2Button()
     {
-        storyScript = "부 지휘관은 마침내 당신의 뜻을 따라 그들과 함께 남아있기로 결정했습니다.";
+        storyScript = "애써 당신은 화를 삭혀보지만 분에 이기지 못해 벽을 강하게 때립니다.";
         StartCoroutine("TypingStory", storyScript);
+        mental -= 1;
+        statusLogText.color = Color.red;
+        statusLogText.text = "멘탈";
+        StatusFade();
         subEvent2_1Button.SetActive(false);
         subEvent2_2Button.SetActive(false);
         eventButton.SetActive(true);
@@ -318,7 +331,7 @@ public class MainScript : MonoBehaviour
     }
     public void SubEvent3_1Button()
     {
-        storyScript = "당신은 설득 끝에 개들에게 썰매를 끌도록 하였습니다! 더이상은 노동력 걱정을 안해도 괜찮겠군요";
+        storyScript = "\"한마리밖에 없는데요…?\" 하지만, 그건 중요하지 않았습니다. 뭐 어때요. 게임이면 한마리로 썰매좀 끌 수 있지 않겠어요?";
         StartCoroutine("TypingStory", storyScript);
         statusLogText.color = Color.green;
         statusLogText.text = "개";
@@ -330,11 +343,11 @@ public class MainScript : MonoBehaviour
     }
     public void SubEvent3_2Button()
     {
-        storyScript = "야만인!당신은 동료들에게 무수한 질책을 받았습니다. 멘탈이 깎입니다..";
+        storyScript = "\"아니, 대장님 그건…\" 당신은 애써 시선을 피하는 대원을 무시하고 개를 잔혹하게 살인합니다. 아무리 게임이어도... ";
         StartCoroutine("TypingStory", storyScript);
         mental -= 1;
-        statusLogText.color = Color.red;
-        statusLogText.text = "멘탈";
+        hp += 1;
+        statusLogText.text = "<color=red>멘탈</color> <color=green>체력</color>";
         StatusFade();
         subEvent3_1Button.SetActive(false);
         subEvent3_2Button.SetActive(false);
@@ -411,7 +424,7 @@ public class MainScript : MonoBehaviour
                 eventButton.SetActive(true);
                 break;
             case 6:
-                storyScript = "당신은 가방 안에 있던 '근육은 힘이다!'라는 책을 집어갑니다.. 근육에 오는 자극이 꽤 맛있다는걸 느꼈습니다";
+                storyScript = "당신은 가방 안에 있던 '근육은 힘이다!'라는 책을 집어갑니다.. 근육에 오는 자극이 꽤 맛있다는걸 느껴지기 시작했습니다  ";
                 StartCoroutine("TypingStory", storyScript);
                 statusLogText.color = Color.green;
                 statusLogText.text = "근력";
@@ -563,12 +576,48 @@ public class MainScript : MonoBehaviour
     }
     public void SubStory8()
     {
-        storyScript = "";
+        storyScript = "오랜만에 콩 통조림을 따듯하게 뎁혀서 먹었습니다. 속까지 뜨끈해 지는게 포만감도 들고 마음도 편안하게 만들었습니다..";
         StartCoroutine("TypingStory", storyScript);
+        statusLogText.color = Color.green;
+        statusLogText.text = "체력 멘탈";
+        hp += 1;
+        mental += 1;
+        if (hp > 3)
+            hp = 3;
+        if (mental > 3)
+            mental = 3;
+        eventButton.SetActive(true);
     }
     public void SubStory9()
     {
-        
+        storyScript = "당신은 여느때와 같이 밥을 먹으려고 통조림을 꺼냈습니다. 다만 통조림이 잘 열리지 않는군요.."; 
+        StartCoroutine("TypingStory", storyScript);
+        subEvent9_1Button.SetActive(true);
+        if(characteristicArray[(int)Characteristic.Strong])
+         subEvent9_2Button.SetActive(true);
+    }
+
+    public  void SubEvent9_1Button()
+    {
+        storyScript = "젖먹던 힘까지 짜내보았지만 통조림은 꿈쩍도 하지 않습니다. 오늘안에 밥을 먹긴 글렀네요"; 
+        StartCoroutine("TypingStory", storyScript);
+        statusLogText.color = Color.red;
+        statusLogText.text = "멘탈";
+        mental -= 1;
+        subEvent9_1Button.SetActive(false);
+        subEvent9_2Button.SetActive(false);
+        eventButton.SetActive(true);
+    }
+    public void SubEvent9_2Button()
+    {
+        storyScript = "힘을 지긋이 주니 통조림이 조금씩 열리기 시작했습니다! 땀을 흘린 후에 먹는거라 더 맛있게 느껴지기도 합니다"; 
+        StartCoroutine("TypingStory", storyScript);
+        statusLogText.color = Color.green;
+        statusLogText.text = "멘탈";
+        mental += 1;
+        subEvent9_1Button.SetActive(false);
+        subEvent9_2Button.SetActive(false);
+        eventButton.SetActive(true);
     }
     public void SubStory10()
     {
@@ -625,7 +674,8 @@ public class MainScript : MonoBehaviour
         mainEvent1_1Button.SetActive(true);
         if (characteristicArray[(int)Characteristic.Navigational])
             mainEvent1_2Button.SetActive(true);
-            
+        mainStoryCount = 0;
+        mainStoryProgress += 1;
     }
 
     public void MainEvent1_1Button()
@@ -635,7 +685,6 @@ public class MainScript : MonoBehaviour
         StartCoroutine("TypingStory", storyScript);
         mainEvent1_1Button.SetActive(false);
         mainEvent1_2Button.SetActive(false);
-        mainStoryProgress += 1;
     }
     public void MainEvent1_2Button()
     {
@@ -648,7 +697,6 @@ public class MainScript : MonoBehaviour
         StatusFade();
         mainEvent1_1Button.SetActive(false);
         mainEvent1_2Button.SetActive(false);
-        mainStoryProgress += 1;
         eventButton.SetActive(true);
     }
     public void MainStory2()
