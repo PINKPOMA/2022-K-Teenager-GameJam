@@ -215,7 +215,7 @@ public class MainScript : MonoBehaviour
         {
             int randomNumber = Random.Range(0, 10);
 
-            while (randomNumber != lastNum)
+            while (randomNumber == lastNum)
             {
                 randomNumber = Random.Range(0, 10);
             }
@@ -599,8 +599,6 @@ public class MainScript : MonoBehaviour
                       "당신은 돈 내기를 다시는 하지 않겠다고 다짐하는 계기가 되었지만, 재미 있었으니 됐다며 휴식을 끝마쳤습니다.";
         StartCoroutine("TypingStory", storyScript);
         itemArray[(int)Item.Gold] = false;
-        statusLogText.text = "<color=red>금화</color> <color=green>멘탈</color>";
-        StartCoroutine("StatusFade");
         mental += 1;
         if (mental > 3)
             mental = 3;
@@ -612,7 +610,7 @@ public class MainScript : MonoBehaviour
     }
     public void SubStory8()
     {
-        storyScript = "오랜만에 콩 통조림을 따듯하게 뎁혀서 먹었습니다. 속까지 뜨끈해 지는게 포만감도 들고 마음도 편안하게 만들었습니다..";
+        storyScript = "당신은 이 추위속에서 콩 통조림을 따듯하게 뎁혀서 먹었습니다. 속까지 뜨끈해 지는게 마치 영혼을 데워주는 것만 같습니다..";
         StartCoroutine("TypingStory", storyScript);
         statusLogText.color = Color.green;
         statusLogText.text = "체력 멘탈";
