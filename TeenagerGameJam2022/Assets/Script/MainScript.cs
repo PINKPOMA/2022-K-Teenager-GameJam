@@ -35,8 +35,8 @@ public class MainScript : MonoBehaviour
     [SerializeField] private int hp;
     [SerializeField] private int mental;
 
-    private bool[] characteristicArray = new []{false, false, false, false, false, false, false, false};
-    private bool[] itemArray = new []{false, false, false, false, false, false, false};
+    private bool[] characteristicArray = {false, false, false, false, false, false, false, false};
+    private bool[] itemArray = {false, false, false, false, false, false, false};
     
     [SerializeField] private GameObject[] showHp;
     [SerializeField] private GameObject[] showMental;
@@ -100,7 +100,7 @@ public class MainScript : MonoBehaviour
         storyTeller.gameObject.SetActive(true);
         gearButton.SetActive(true);
         storyScript =
-            "1872년 7월 16일, 당신은 어느 마을의 오두막에서 태어났습니다. " +
+            "1872년 7월 16일, 당신은 어느 마을의 오두막에서 로얄 아문센 이라는 이름을 가지고 태어났습니다. " +
             "15살 시절 우연히 탐험 보고서를 얻은 후 읽으며 탐험가의 매력에 빠져 꿈을 키우기 시작했던 당신은 어느새 훌쩍 자라 첫 탐험으로 남극으로 떠났었죠." +
             " 펭귄과 바다표범을 먹은 적도 있었지만, 그건 중요하지 않을겁니다" +
             " 그 후 선장 면허를 취득한 당신은 자기학을 공부하고, 기상학 관련 지식을 배우며 누구와도 비교할 수 없는 만능 선장의 길을 걷게 되었습니다." +
@@ -144,8 +144,8 @@ public class MainScript : MonoBehaviour
     public void GetCharacteristic1()
     {
         storyScript =
-            "당신은 어려서부터 호기심이 많았습니다 그것도 날씨에 관해서요!\n" +
-            "아마 남극에서 당신을 뛰어넘을 기상학자는 없을겁니다";
+            "당신은 어릴적부터 기상학을 열심히 공부했었죠. 뵈르겐 교수님과 슈… 뭔 교수님한테 " +
+            "수업을 들었다는 것만 알아두세요. 그만큼 당신이 똑똑하다는겁니다.";
         StartCoroutine("TypingStory", storyScript);
         characteristicArray[(int)Characteristic.Meteorology] = true;
         statusLogText.color = Color.green;
@@ -158,12 +158,12 @@ public class MainScript : MonoBehaviour
     public void GetCharacteristic2()
     {
         storyScript =
-            "당신은 남극의 중심을 보기위해 정말 많은 노력을 해왔지만 그중에서도 항해실력은 으뜸이었습니다.\n" +
-            "당신의 항해 실력이면 남극까진 무사히 도착할것 같군요.";
+            "어릴적부터 뭔가를 세부적으로 잘 파악하던 당신은 이 뛰어난 분석력을 바탕으로 여러가지 공부를 해냈죠. " +
+            "일행의 그 누구보다도 뛰어나다고 자부할 만큼 실력이 어마어마합니다.";
         StartCoroutine("TypingStory", storyScript);
         characteristicArray[(int)Characteristic.Navigational] = true;
         statusLogText.color = Color.green;
-        statusLogText.text = "항해력";
+        statusLogText.text = "분석력";
         StopCoroutine("StatusFade");
         StartCoroutine("StatusFade");
         eventButton.SetActive(true);
@@ -172,8 +172,7 @@ public class MainScript : MonoBehaviour
     public void GetCharacteristic3()
     {
         storyScript =
-            "당신은 동네에서 놀때에도 모두를 한데 뭉치는데 능숙했죠.\n" +
-            "여렸을때부터 갈고닦아온 통솔력의 힘을 보여줄때가 왔습니다!";
+            "역시 사람들을 움직이는데에는 당신이 가장 적합하죠! 당신의 지휘력에 중국이 놀라고 일본이 경악했을지도 모릅니다. 정말 멋진 지휘실력이에요.";
         StartCoroutine("TypingStory", storyScript);
         characteristicArray[(int)Characteristic.Commanding] = true;
         statusLogText.color = Color.green;
@@ -293,8 +292,11 @@ public class MainScript : MonoBehaviour
                       "운 좋게 빠져나오긴 했지만, 기진맥진한 상태가 되어버렸네요.";
         StartCoroutine("TypingStory", storyScript);
         mental -= 1;
+        if (mental < 0)
+            mental = 0;
         statusLogText.color = Color.red;
         statusLogText.text = "멘탈";
+        MentalChanger();
         StartCoroutine("StatusFade");
         subEvent1_1Button.SetActive(false);
         subEvent1_2Button.SetActive(false);
@@ -327,8 +329,11 @@ public class MainScript : MonoBehaviour
         storyScript = "애써 당신은 화를 삭혀보지만 분에 이기지 못해 벽을 강하게 때립니다.";
         StartCoroutine("TypingStory", storyScript);
         mental -= 1;
+        if (mental < 0)
+            mental = 0;
         statusLogText.color = Color.red;
         statusLogText.text = "멘탈";
+        MentalChanger();
         StartCoroutine("StatusFade");
         subEvent2_1Button.SetActive(false);
         subEvent2_2Button.SetActive(false);
@@ -371,6 +376,12 @@ public class MainScript : MonoBehaviour
         StartCoroutine("TypingStory", storyScript);
         mental -= 1;
         hp += 1;
+        if (hp > 3)
+            hp = 3;
+        if (mental < 0)
+            mental = 0;
+        MentalChanger();
+        HpChanger();
         statusLogText.text = "<color=red>멘탈</color> <color=green>체력</color>";
         StartCoroutine("StatusFade");
         subEvent3_1Button.SetActive(false);
@@ -521,14 +532,15 @@ public class MainScript : MonoBehaviour
     }
     public void SubStory5()
     {
-        storyScript = "문득 밤하늘을 올려다보니 하늘엔 오로라가 생겼습니다";
+        storyScript = "어느새 저녁이 되어 야영을 해야할 것 같습니다. 잠깐 하늘을 보니 아름다운 오로라가 펼쳐져 있네요. " +
+                      "힘든 여정으로 인해서 지친 당신의 몸과 마음이 치유되는 기분을 느낍니다.";
         StartCoroutine("TypingStory", storyScript);
         subEvent5Button.SetActive(true);
     }
 
     public void SubEvent5Button()
     {
-        storyScript = "당신은 정말 오랜만에 편하게 잠자리에 들었습니다";
+        storyScript = "당신은 부풀어오른 마음을 잠깐 접어두고 휴식을 취하기 위해서 숙면에 듭니다.";
         StartCoroutine("TypingStory", storyScript);
         statusLogText.color = Color.green;
         statusLogText.text = "멘탈";
@@ -536,6 +548,7 @@ public class MainScript : MonoBehaviour
         mental += 1;
         if (mental > 3)
             mental = 3;
+        MentalChanger();
         subEvent5Button.SetActive(false);
         eventButton.SetActive(true);
     }
@@ -571,7 +584,7 @@ public class MainScript : MonoBehaviour
     }
     public void SubStory7()
     {
-        storyScript = "당신과 당신의 동료들은 무료함에 미칠지경입니다.";
+        storyScript = "당신과 대원들은 잠깐 휴식을 하며, 무료함을 달래기 위해서 무언가를 찾고 있습니다. 괜찮은 물건이 없을까요?";
         StartCoroutine("TypingStory", storyScript);
         subEvent7_1Button.SetActive(true);
         if (itemArray[(int)Item.Gold])
@@ -582,20 +595,32 @@ public class MainScript : MonoBehaviour
     }
     public void SubEvent7_1Button()
     {
-        storyScript = "당신은 가위바위보를 제안하였지만 모두 흥미를 보이지 않았습니다.. 마음에 상처를 받았습니다.";
+        storyScript = "심심하던 당신과 대원들은 농담이라도 따먹기로 했습니다. \"왕이 넘어지면?\" \"킹콩!\" 하하. 재미있던 것 같습니다. 아마도요.";
         StartCoroutine("TypingStory", storyScript);
-        statusLogText.color = Color.red;
+        statusLogText.color = Color.green;
         statusLogText.text = "멘탈";
         StartCoroutine("StatusFade");
-        mental -= 1;
+        mental += 1;
+        if (mental > 3)
+            mental = 3;
+        MentalChanger();
         subEvent7_1Button.SetActive(false);
         subEvent7_2Button.SetActive(false);
         eventButton.SetActive(true);
     }
     public void SubEvent7_2Button()
     {   
-        storyScript = "당신은 주머니에 들어있던 금화를 걸고 도박을 하였습니다 모두 의욕이 넘쳤지만 도박의 승자는 당신이었습니다";
+        storyScript = "돈 내기는 불건전하지만, 다 큰 성인들이 잠깐 하는데 뭐 어떤가요. " +
+                      "당신은 돈 내기를 다시는 하지 않겠다고 다짐하는 계기가 되었지만, 재미 있었으니 됐다며 휴식을 끝마쳤습니다.";
         StartCoroutine("TypingStory", storyScript);
+        itemArray[(int)Item.Gold] = false;
+        statusLogText.text = "<color=red>금화</color> <color=green>멘탈</color>";
+        StartCoroutine("StatusFade");
+        mental += 1;
+        if (mental > 3)
+            mental = 3;
+        MentalChanger();
+        
         subEvent7_1Button.SetActive(false);
         subEvent7_2Button.SetActive(false);
         eventButton.SetActive(true);
@@ -613,11 +638,13 @@ public class MainScript : MonoBehaviour
             hp = 3;
         if (mental > 3)
             mental = 3;
+        HpChanger();
+        MentalChanger();
         eventButton.SetActive(true);
     }
     public void SubStory9()
     {
-        storyScript = "당신은 여느때와 같이 밥을 먹으려고 통조림을 꺼냈습니다. 다만 통조림이 잘 열리지 않는군요.."; 
+        storyScript = "여느때와 같이 정해진 시간에 밥을 먹기 위해 통조림을 개봉하고 있었습니다. 어라, 근데 잘 열리지 않는군요."; 
         StartCoroutine("TypingStory", storyScript);
         subEvent9_1Button.SetActive(true);
         if(characteristicArray[(int)Characteristic.Strong])
@@ -626,34 +653,65 @@ public class MainScript : MonoBehaviour
 
     public  void SubEvent9_1Button()
     {
-        storyScript = "젖먹던 힘까지 짜내보았지만 통조림은 꿈쩍도 하지 않습니다. 오늘안에 밥을 먹긴 글렀네요"; 
+        storyScript = "당신은 무리해서 뚜껑을 열려고 시도하다 뚜껑에 손이 베였습니다. 아아, 아파라…"; 
         StartCoroutine("TypingStory", storyScript);
         statusLogText.color = Color.red;
-        statusLogText.text = "멘탈";
+        statusLogText.text = "체력";
         StartCoroutine("StatusFade");
-        mental -= 1;
+        hp -= 1;
+        if (hp < 0)
+            hp = 0;
+        HpChanger();
         subEvent9_1Button.SetActive(false);
         subEvent9_2Button.SetActive(false);
         eventButton.SetActive(true);
     }
     public void SubEvent9_2Button()
     {
-        storyScript = "힘을 지긋이 주니 통조림이 조금씩 열리기 시작했습니다! 땀을 흘린 후에 먹는거라 더 맛있게 느껴지기도 합니다"; 
+        storyScript = "당신은 힘 자랑을 하는 듯 무식하게 뚜껑을 뜯어내고 통조림을 허겁지겁 먹기 시작합니다. 조금은 남성성이 강해진 것 같네요."; 
         StartCoroutine("TypingStory", storyScript);
         statusLogText.color = Color.green;
-        statusLogText.text = "멘탈";
+        statusLogText.text = "체력";
         StartCoroutine("StatusFade");
-        mental += 1;
+        hp += 1;
+        HpChanger();
         subEvent9_1Button.SetActive(false);
         subEvent9_2Button.SetActive(false);
         eventButton.SetActive(true);
     }
     public void SubStory10()
     {
-        
+        storyScript = "귀여운 펭귄들이 잔뜩 모여있습니다! 어라, 근데 어째서인지 당신에게 펭귄 한마리가 뭔가를 열심히 밀면서 다가옵니다. " +
+                      "가까이 가서 확인해볼까요?"; 
+        StartCoroutine("TypingStory", storyScript);
+        subEvent10_1Button.SetActive(true);
+        subEvent10_2Button.SetActive(true);
+    }
+
+    public void SubEvent10_1Button()
+    {
+        if (Random.Range(0, 2) == 0)
+            SubStory11();
+        else
+            SubStory12();
+    }
+    public void SubEvent10_2Button()
+    {
+        storyScript = "당신은 가던 길을 계속 가기로 합니다.";
+        StartCoroutine("TypingStory", storyScript);
+        subEvent10_1Button.SetActive(false);
+        subEvent10_2Button.SetActive(false);
+        eventButton.SetActive(true);
     }
     public void SubStory11()
     {
+        storyScript = "펭귄이 당신에게 선물을 줬군요! 어디에 쓰는건지는… 자세히 살펴보도록 해야할 것 같네요.";
+        StartCoroutine("TypingStory", storyScript);
+        itemArray[(int)Item.Jumper] = true;
+        itemArray[(int)Item.Medicine] = true;
+        itemArray[(int)Item.Gold] = true;
+        statusLogText.color=Color.green;
+        statusLogText.text = "방한복 약 금화";
         
     }
     public void SubStory12()
@@ -714,6 +772,9 @@ public class MainScript : MonoBehaviour
         statusLogText.color = Color.red;
         statusLogText.text = "체력";
         hp -= 1;
+        if (hp < 0)
+            hp = 0;
+        HpChanger();
         StartCoroutine("StatusFade");
         mainEvent1_1Button.SetActive(false);
         mainEvent1_2Button.SetActive(false);
@@ -747,6 +808,9 @@ public class MainScript : MonoBehaviour
         statusLogText.color = Color.red;
         statusLogText.text = "멘탈";
         mental -= 1;
+        if (mental < 0)
+            mental = 0;
+        MentalChanger();
         StartCoroutine("StatusFade");
         mainEvent2_1Button.SetActive(false);
         mainEvent2_2Button.SetActive(false);
@@ -810,6 +874,59 @@ public class MainScript : MonoBehaviour
     public void Retry()
     {
         SceneManager.LoadScene("MainScene");
+    }
+    
+    public void HpChanger()
+    {
+        switch (hp)
+        {
+            case 0:
+                showHp[0].SetActive(false);
+                showHp[1].SetActive(false);
+                showHp[2].SetActive(false);
+                break;
+            case 1:
+                showHp[0].SetActive(true);
+                showHp[1].SetActive(false);
+                showHp[2].SetActive(false);
+                break;
+            case 2:
+                showHp[0].SetActive(true);
+                showHp[1].SetActive(true);
+                showHp[2].SetActive(false);
+                break;
+            case 3:
+                showHp[0].SetActive(true);
+                showHp[1].SetActive(true);
+                showHp[2].SetActive(true);
+                break;
+        }
+    }
+    public void MentalChanger()
+    {
+        switch (mental)
+        {
+            case 0:
+                showMental[0].SetActive(false);
+                showMental[1].SetActive(false);
+                showMental[2].SetActive(false);
+                break;
+            case 1:
+                showMental[0].SetActive(true);
+                showMental[1].SetActive(false);
+                showMental[2].SetActive(false);
+                break;
+            case 2:
+                showMental[0].SetActive(true);
+                showMental[1].SetActive(true);
+                showMental[2].SetActive(false);
+                break;
+            case 3:
+                showMental[0].SetActive(true);
+                showMental[1].SetActive(true);
+                showMental[2].SetActive(true);
+                break;
+        }
     }
 
     IEnumerator StatusFade()
