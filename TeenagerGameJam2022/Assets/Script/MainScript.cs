@@ -73,6 +73,8 @@ public class MainScript : MonoBehaviour
     [SerializeField] private GameObject subEvent7_2Button;
     [SerializeField] private GameObject subEvent9_1Button;
     [SerializeField] private GameObject subEvent9_2Button;
+    [SerializeField] private GameObject subEvent10_1Button;
+    [SerializeField] private GameObject subEvent10_2Button;
     
     [SerializeField] private GameObject mainEvent1_1Button;
     [SerializeField] private GameObject mainEvent1_2Button;
@@ -250,27 +252,7 @@ public class MainScript : MonoBehaviour
                 case 12:
                     SubStory13();
                     break;
-                case 13:
-                    SubStory14();
-                    break;
-                case 14:
-                    SubStory15();
-                    break;
-                case 15:
-                    SubStory16();
-                    break;
-                case 16:
-                    SubStory17();
-                    break;
-                case 17:
-                    SubStory18();
-                    break;
-                case 18:
-                    SubStory19();
-                    break;
-                case 19:
-                    SubStory20();
-                    break;
+                
             }
         }
         eventButton.SetActive(false);
@@ -694,6 +676,8 @@ public class MainScript : MonoBehaviour
             SubStory11();
         else
             SubStory12();
+        subEvent10_1Button.SetActive(false);
+        subEvent10_2Button.SetActive(false);
     }
     public void SubEvent10_2Button()
     {
@@ -712,44 +696,29 @@ public class MainScript : MonoBehaviour
         itemArray[(int)Item.Gold] = true;
         statusLogText.color=Color.green;
         statusLogText.text = "방한복 약 금화";
-        
+        StartCoroutine("StatusFade");
+        eventButton.SetActive(true);
     }
     public void SubStory12()
     {
-        
+        storyScript = "펭귄 무리들이 당신이 아기 펭귄을 위협하려는 줄 알고 공격합니다. " +
+                      "당신은 급하게 도망치지만 슬라이딩을 하며 오는 펭귄에게 다리가 걸려져 넘어졌습니다." +
+                      " 어찌저찌 빠져나왔지만, 다리가 마음대로 움직이지는 않네요.";
+        StartCoroutine("TypingStory", storyScript);
+        statusLogText.color = Color.red;
+        statusLogText.text = "체력";
+        StartCoroutine("StatusFade");
+        hp -= 1;
+        if (hp < 0)
+            hp = 0;
+        HpChanger();
+        eventButton.SetActive(true);
     }
     public void SubStory13()
     {
         
     }
-    public void SubStory14()
-    {
-        
-    }
-    public void SubStory15()
-    {
-        
-    }
-    public void SubStory16()
-    {
-        
-    }
-    public void SubStory17()
-    {
-        
-    }
-    public void SubStory18()
-    {
-        
-    }
-    public void SubStory19()
-    {
-        
-    }
-    public void SubStory20()
-    {
-        
-    }
+
 
 
 
