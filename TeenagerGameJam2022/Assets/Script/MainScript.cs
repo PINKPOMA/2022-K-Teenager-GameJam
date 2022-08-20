@@ -59,6 +59,8 @@ public class MainScript : MonoBehaviour
     [SerializeField] private GameObject retryButton;
     [SerializeField] private GameObject gearButton;
     
+    [SerializeField] private GameObject endingimage;
+    
     [SerializeField] private GameObject subEvent1_1Button;
     [SerializeField] private GameObject subEvent1_2Button;
     [SerializeField] private GameObject subEvent2_1Button;
@@ -249,10 +251,6 @@ public class MainScript : MonoBehaviour
                 case 11:
                     SubStory12();
                     break;
-                case 12:
-                    SubStory13();
-                    break;
-                
             }
         }
         eventButton.SetActive(false);
@@ -714,13 +712,6 @@ public class MainScript : MonoBehaviour
         HpChanger();
         eventButton.SetActive(true);
     }
-    public void SubStory13()
-    {
-        
-    }
-
-
-
 
     public void MainStory1()
     {
@@ -837,6 +828,7 @@ public class MainScript : MonoBehaviour
             " 팀원들은 무모하다고 했지만, 언제까지나 허황된 꿈이라며 무시하는 사람들에게 질타받고 싶지 않았기에 돌파하자고 합니다. " +
             "무모하다면 어떻습니까, 당신은 지금껏 한번도 인간의 손길이 닿지 않은 최초의 땅으로 발을 딛기 시작했습니다.";
         StartCoroutine("TypingStory", storyScript);
+        endingimage.SetActive(true);
         retryButton.SetActive(true);
     }
 
